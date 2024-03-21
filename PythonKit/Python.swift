@@ -259,6 +259,8 @@ private func throwPythonErrorIfPresent() throws {
     // The value for the exception may not be set but the type always should be.
     let resultObject = PythonObject(consuming: value ?? type!)
     let tracebackObject = traceback.flatMap { PythonObject(consuming: $0) }
+    print(resultObject)
+    print(tracebackObject)
     throw PythonError.exception(resultObject, traceback: tracebackObject)
 }
 
@@ -696,6 +698,7 @@ public struct PythonInterface {
     
     public func attemptImport(_ name: String) throws -> PythonObject {
         guard let module = PyImport_ImportModule(name) else {
+            print(name)
             try throwPythonErrorIfPresent()
             throw PythonError.invalidModule(name)
         }
